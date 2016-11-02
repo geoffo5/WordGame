@@ -1,0 +1,13 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+<h1>Well Done You Won!!!!!!!!</h1>
+<h2>Your time was: {{time}}</h2>
+<h4>Please Enter Your Name</h4>
+<form action="/leaderboard" method="post">
+    Name<input type="text" name="name" />
+    <input type="submit" value="Submit to Leaderboard" />
+</form>
+
+
+{% endblock %}

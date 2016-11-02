@@ -1,0 +1,13 @@
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\bin\Microsoft.PythonTools.WebRole.dll
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\attach_server.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\visualstudio_py_debugger.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\visualstudio_py_repl.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\visualstudio_py_util.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\__init__.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\__main__.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\bin\AzureSetup.cfg
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\bin\Microsoft.PythonTools.AzureSetup.exe
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\bin\Microsoft.PythonTools.AzureSetup.exe.config
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\bin\wfastcgi.py
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\web.config
+C:\Users\geoff\OneDrive\Documents\2016 - 2017 College\Web and Cloud\WordGame\WordGame\obj\Debug\web.debug.config

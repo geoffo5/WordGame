@@ -1,0 +1,20 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 align="center"> GO!!!!!!!!!</h1>
+<h3 align="center"> Your word is: {{word}} </h3>
+<form action="/results" method="post">
+    Word 1<input type="text" name="word1"><br />
+    Word 2<input type="text" name="word2"><br />
+    Word 3<input type="text" name="word3"><br />
+    Word 4<input type="text" name="word4"><br />
+    Word 5<input type="text" name="word5"><br />
+    Word 6<input type="text" name="word6"><br />
+    Word 7<input type="text" name="word7"><br /><br />
+    <input type="submit" value="Done" />
+</form>
+
+
+
+{% endblock %}

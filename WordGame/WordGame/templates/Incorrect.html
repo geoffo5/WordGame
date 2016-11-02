@@ -1,0 +1,23 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<h2> Sorry, That Was Incorrect</h2>
+<h4>Here are the words that were wrong</h4>
+
+<p> The source word was: {{sourceWord}}</p>
+<ul>
+    <li>These words were duplicates of words already entered: {{duplicates}}</li>
+    <li>These words were not three characters or more:{{tooShort}}</li>
+    <li>These words were the source words:{{isSource}}</li>
+    <li>These words were not real words: {{notRealWords}}</li>
+    <li>These words contained characters not in the source word: {{noMatch}}</li>
+</ul>
+
+<h2>Better Luck Next Time</h2>
+<form action="/gamePage" method="post">
+    <input type="submit" value="Try Again?" /> 
+</form>
+
+
+{% endblock %}
