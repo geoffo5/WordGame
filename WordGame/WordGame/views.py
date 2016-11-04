@@ -4,16 +4,18 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from flask import render_template,request,Flask,session
+from WordGame import app
 from operator import itemgetter
 import random
 import pickle 
 
-app = Flask(__name__)
+#app = Flask(__name__)
+app.config['SECRET_KEY'] = "YOUWILLNEVERGUESSMYSECRETKEY"
 
-startTime = datetime
-sourceWord = ''
-wrongWords = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
-time = datetime
+#startTime = datetime
+#sourceWord = ''
+#wrongWords = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
+#time = datetime
 
 
 
@@ -48,7 +50,7 @@ def gamePage():
 @app.route('/results', methods=['POST'])
 def results():
     endTime = datetime.now()
-    session['time'] = (endTime - startTime).total_seconds()
+    session['time'] = (endTime - session['startTime']).total_seconds()
     session['time'] = datetime.fromtimestamp(session['time']).strftime('%M:%S')
     words = []
     session['wrongWords'] = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
@@ -101,7 +103,7 @@ def leaderboard():
         topTen.append(board[i])
 
     for i, dict in enumerate(board):
-        if dict['Name'] == name and dict['Time'] == time:
+        if dict['Name'] == name and dict['Time'] == session['time']:
             pos = i
         
     return render_template('leaderboard.html', year = datetime.now().year, board = topTen, position = pos)
@@ -110,13 +112,12 @@ def checkChars(words):
    
    for word in words:
         for char in word:
-            if word.count(char) > sourceWord.count(char):
+            if word.count(char) > session['sourceWord'].count(char):
                 session['wrongWords']['noMatch'] = session['wrongWords']['noMatch'] + ', ' + word
                 break 
 
 def threeChars(words):
-    global wrongWords
-
+    
     for word in words:
         if len(word) < 3:
             session['wrongWords']['tooShort'] = session['wrongWords']['tooShort'] + ', ' + word
@@ -124,7 +125,7 @@ def threeChars(words):
 def checkSource(words):
     
     for word in words:
-        if word == sourceWord:
+        if word == session['sourceWord']:
             session['wrongWords']['matchesSource'] = session['wrongWords']['matchesSource'] + ', ' + word
 
 def isRealWord(words):
