@@ -140,13 +140,11 @@ def isRealWord(words):
                 session['wrongWords']['notRealWord'] = session['wrongWords']['notRealWord'] + ', ' + word
 
 def areWrongWords():
-    global wrongWords
+
     correct = True
 
-    for key in wrongWords:
-        if wrongWords[key] != '':
+    for key in session['wrongWords']:
+        if session['wrongWords'][key] != '':
             correct = False
 
     return correct
-
-       
