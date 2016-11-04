@@ -3,11 +3,12 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template,request
-from WordGame import app
+from flask import render_template,request,Flask,session
 from operator import itemgetter
 import random
 import pickle 
+
+app = Flask(__name__)
 
 startTime = datetime
 sourceWord = ''
@@ -39,28 +40,22 @@ def gamePage():
               if len(word) >= 7:
                 charWords.append(word)
 
-        global sourceWord
-        sourceWord = random.choice(charWords) 
-        sourceWord = sourceWord.lower()
-        global startTime
-        startTime = datetime.now()
+        session['sourceWord'] = random.choice(charWords).lower() 
+        session['startTime'] = datetime.now()
                     
-        return render_template('gamePage.html', title='Word Game',year=datetime.now().year,word = sourceWord) 
+        return render_template('gamePage.html', title='Word Game',year=datetime.now().year,word = session['sourceWord']) 
 
 @app.route('/results', methods=['POST'])
 def results():
     endTime = datetime.now()
-    global time
-    time = (endTime - startTime).total_seconds()
-    time = datetime.fromtimestamp(time).strftime('%M:%S')
-    print(str(time))
+    session['time'] = (endTime - startTime).total_seconds()
+    session['time'] = datetime.fromtimestamp(session['time']).strftime('%M:%S')
     words = []
-    global wrongWords  
-    wrongWords = {key: '' for key in wrongWords}
+    session['wrongWords'] = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
 
     for k,v in request.form.items():
         if v in words:
-            wrongWords['duplicate'] = wrongWords['duplicate'] + ", " + v
+           session['wrongWords']['duplicate'] = session['wrongWords']['duplicate'] + ", " + v
         else:
             words.append(v.lower())    
  
@@ -78,16 +73,16 @@ def results():
     correct = areWrongWords() 
 
     if not correct:
-        return render_template('Incorrect.html', year = datetime.now().year, sourceWord=sourceWord, duplicates=wrongWords['duplicate'][2:], tooShort=wrongWords['tooShort'][2: ], isSource=wrongWords['matchesSource'][2: ], notRealWords=wrongWords['notRealWord'][2: ], noMatch=wrongWords['noMatch'][2: ])
+        return render_template('Incorrect.html', year = datetime.now().year, sourceWord=session['sourceWord'], duplicates=session['wrongWords']['duplicate'][2:], tooShort=session['wrongWords']['tooShort'][2: ], isSource=session['wrongWords']['matchesSource'][2: ], notRealWords=session['wrongWords']['notRealWord'][2: ], noMatch=session['wrongWords']['noMatch'][2: ])
     else:
-       return winner(str(time))
+       return winner()
     
         
 
 @app.route('/winner', methods = ['POST'])
-def winner(time):
+def winner():
         
-    return render_template('winner.html', year = datetime.now().year, time = time)
+    return render_template('winner.html', year = datetime.now().year, time = session['time'])
 
 @app.route('/leaderboard', methods = ['POST'])
 def leaderboard():
@@ -96,7 +91,7 @@ def leaderboard():
     with open('leaderboard.pickle', 'rb') as lb:
         board = pickle.load(lb)
     
-    board.append({'Name':name , 'Time':str(time)})
+    board.append({'Name':name , 'Time':str(session['time'])})
     board = sorted(board,key=itemgetter('Time'))   
     with open('leaderboard.pickle', 'wb') as l:
         pickle.dump(board, l)
@@ -112,12 +107,11 @@ def leaderboard():
     return render_template('leaderboard.html', year = datetime.now().year, board = topTen, position = pos)
 
 def checkChars(words):
-   global wrongWords
-
+   
    for word in words:
         for char in word:
             if word.count(char) > sourceWord.count(char):
-                wrongWords['noMatch'] = wrongWords['noMatch'] + ', ' + word
+                session['wrongWords']['noMatch'] = session['wrongWords']['noMatch'] + ', ' + word
                 break 
 
 def threeChars(words):
@@ -125,17 +119,15 @@ def threeChars(words):
 
     for word in words:
         if len(word) < 3:
-            wrongWords['tooShort'] = wrongWords['tooShort'] + ', ' + word
+            session['wrongWords']['tooShort'] = session['wrongWords']['tooShort'] + ', ' + word
 
 def checkSource(words):
-    global wrongWords
-
+    
     for word in words:
         if word == sourceWord:
-            wrongWords['matchesSource'] = wrongWords['matchesSource'] + ', ' + word
+            session['wrongWords']['matchesSource'] = session['wrongWords']['matchesSource'] + ', ' + word
 
 def isRealWord(words):
-    global wrongWords
     lotsOfWords = []
 
     with open("words.txt", "r") as dictWords:
@@ -145,7 +137,7 @@ def isRealWord(words):
 
         for word in words:
             if word not in lotsOfWords:
-                wrongWords['notRealWord'] = wrongWords['notRealWord'] + ', ' + word
+                session['wrongWords']['notRealWord'] = session['wrongWords']['notRealWord'] + ', ' + word
 
 def areWrongWords():
     global wrongWords
