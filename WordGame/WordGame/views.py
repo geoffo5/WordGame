@@ -4,12 +4,11 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from flask import render_template,request,Flask,session
-from WordGame import app
 from operator import itemgetter
 import random
 import pickle 
 
-#app = Flask(__name__)
+app = Flask(__name__)
 app.config['SECRET_KEY'] = "YOUWILLNEVERGUESSMYSECRETKEY"
 
 #startTime = datetime
@@ -117,7 +116,6 @@ def checkChars(words):
                 break 
 
 def threeChars(words):
-    
     for word in words:
         if len(word) < 3:
             session['wrongWords']['tooShort'] = session['wrongWords']['tooShort'] + ', ' + word
