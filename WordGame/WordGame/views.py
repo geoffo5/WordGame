@@ -11,17 +11,11 @@ import pickle
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "YOUWILLNEVERGUESSMYSECRETKEY"
 
-#startTime = datetime
-#sourceWord = ''
-#wrongWords = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
-#time = datetime
-
 
 
 @app.route('/')
 @app.route('/home', methods=['POST'])
 def home():
-    """Renders the home page."""
     return render_template(
         'index.html',
         title='Home Page',
@@ -55,7 +49,7 @@ def results():
     session['wrongWords'] = {'duplicate':'', 'noMatch':'','tooShort':'','notRealWord':'','matchesSource':''}
 
     for k,v in request.form.items():
-        if v in words:
+        if v.lower() in words:
            session['wrongWords']['duplicate'] = session['wrongWords']['duplicate'] + ", " + v
         else:
             words.append(v.lower())    
